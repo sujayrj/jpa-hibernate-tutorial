@@ -13,7 +13,12 @@ import javax.persistence.*;
 @Table(name="person")
 public class Person {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first", length = 250, nullable = false)
     private String firstName;
+
+    @Column(name = "last", unique = true, nullable = false, length = 250)
     private String lastName;
 }
