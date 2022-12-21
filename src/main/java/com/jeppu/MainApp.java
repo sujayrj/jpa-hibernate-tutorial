@@ -2,10 +2,7 @@ package com.jeppu;
 
 import com.jeppu.domain.Person;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 /**
  * Hibernate JPA Demo
@@ -25,6 +22,17 @@ public class MainApp {
 
         transaction.begin();
         entityManager.persist(person);
+
+        //JPQL - refers Entity name and not Table
+        System.out.println("*** JPQL ***");
+        Query jpqlQuery = entityManager.createQuery("from people");
+        jpqlQuery.getResultList().forEach(System.out::println);
+
+        //Native query - refers Table name
+        System.out.println("\n*** Native Query ***");
+        Query nativeQuery = entityManager.createNativeQuery("select * from person", Person.class);
+        nativeQuery.getResultList().forEach(System.out::println);
+
         transaction.commit();
 
         entityManager.close();
