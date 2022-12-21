@@ -19,9 +19,9 @@ public class MainApp {
 
         //Create an instance of Person and persist to DB
         Person person = new Person();
-        person.setId(1L);
         person.setFirstName("Sujay");
         person.setLastName("Jeppu");
+        person.setTempVar(100);
 
         transaction.begin();
         entityManager.persist(person);

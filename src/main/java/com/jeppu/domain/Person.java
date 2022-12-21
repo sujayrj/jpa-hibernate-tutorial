@@ -13,7 +13,12 @@ import javax.persistence.*;
 @Table(name="person")
 public class Person {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
+
+    //Use Transient annotation when you don't want this field to be persisted to DB (or column created in Table)
+    @Transient
+    private Integer tempVar;
 }
