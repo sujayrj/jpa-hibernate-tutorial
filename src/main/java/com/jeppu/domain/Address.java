@@ -6,16 +6,19 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
-@Table(name="person")
-public class Person {
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String street;
+    private String zipCode;
+
+    @ManyToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
 }

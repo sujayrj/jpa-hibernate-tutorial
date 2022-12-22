@@ -1,5 +1,6 @@
 package com.jeppu;
 
+import com.jeppu.domain.Address;
 import com.jeppu.domain.Person;
 
 import javax.persistence.EntityManager;
@@ -9,24 +10,33 @@ import javax.persistence.Persistence;
 
 /**
  * Hibernate JPA Demo
- *
  */
-public class MainApp {
-    public static void main( String[] args ) {
+public class ManyToOneApp {
+    public static void main(String[] args) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jpa-hibernate");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
 
-        //Create an instance of Person and persist to DB
         Person person = new Person();
-        person.setId(1L);
         person.setFirstName("Sujay");
         person.setLastName("Jeppu");
 
-        transaction.begin();
-        entityManager.persist(person);
-        transaction.commit();
+        Address address1 = new Address();
+        address1.setStreet("Mangalore club road");
+        address1.setPerson(person);
+        address1.setZipCode("575001");
 
+        Address address2 = new Address();
+        address2.setStreet("Bangalore club road");
+        address2.setPerson(person);
+        address2.setZipCode("560037");
+
+        entityManager.persist(person);
+        entityManager.persist(address1);
+        entityManager.persist(address2);
+
+        transaction.commit();
         entityManager.close();
         entityManagerFactory.close();
     }
