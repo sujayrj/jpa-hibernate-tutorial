@@ -18,7 +18,11 @@ public class Address {
     private String zipCode;
 
     @ManyToOne
-    @JoinColumn(name = "person_id")
+    //@JoinColumn(name = "person_id")
+    @JoinTable(name = "person_address",
+            joinColumns = {@JoinColumn(name = "address_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
     private Person person;
 
 }
