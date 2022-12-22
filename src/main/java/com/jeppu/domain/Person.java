@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="person")
+@Table(name = "person")
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +20,11 @@ public class Person {
     private String lastName;
 
     @OneToMany
-    @JoinTable(name = "person_address",
-            joinColumns = {@JoinColumn(name = "person_id")},
-            inverseJoinColumns = {@JoinColumn(name = "address_id")}
-    )
+
+    //creates a seperate table with 2 columns - person_id and address_id
+    //@JoinTable(name = "person_address", joinColumns = {@JoinColumn(name = "person_id")}, inverseJoinColumns = {@JoinColumn(name = "address_id")})
+
+    //creates a column in Address table with name - person_id
+    @JoinColumn(name = "person_id")
     private List<Address> addressList;
 }
