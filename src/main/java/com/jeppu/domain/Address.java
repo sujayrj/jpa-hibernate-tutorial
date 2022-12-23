@@ -18,6 +18,9 @@ public class Address {
     private String city;
     private String state;
     @ManyToOne
-    @JoinColumn(name = "person_id")
+    @JoinTable(name = "person_address",
+            joinColumns = {@JoinColumn(name = "address_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
     private Person person;
 }
