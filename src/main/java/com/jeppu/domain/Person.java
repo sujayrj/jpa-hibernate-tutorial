@@ -17,7 +17,6 @@ public class Person {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @Embedded
     private Address address;
 }

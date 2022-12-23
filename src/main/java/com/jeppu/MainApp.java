@@ -31,7 +31,6 @@ public class MainApp {
         person.setAddress(address);
 
         transaction.begin();
-        entityManager.persist(address);
         entityManager.persist(person);
         transaction.commit();
 
