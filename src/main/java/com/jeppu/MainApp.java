@@ -1,5 +1,6 @@
 package com.jeppu;
 
+import com.jeppu.domain.Address;
 import com.jeppu.domain.Person;
 
 import javax.persistence.EntityManager;
@@ -19,11 +20,18 @@ public class MainApp {
 
         //Create an instance of Person and persist to DB
         Person person = new Person();
-        person.setId(1L);
         person.setFirstName("Sujay");
         person.setLastName("Jeppu");
 
+        Address address = new Address();
+        address.setState("Karnataka");
+        address.setStreet("Mangalore club road");
+        address.setCity("Mangalore");
+
+        person.setAddress(address);
+
         transaction.begin();
+        entityManager.persist(address);
         entityManager.persist(person);
         transaction.commit();
 
