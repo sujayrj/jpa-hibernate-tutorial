@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,5 +17,7 @@ public class Car {
     private Long id;
     private String model;
     private String color;
+    @ManyToMany(mappedBy = "carList", cascade = CascadeType.PERSIST)
+    private List<Person> personList;
 
 }
