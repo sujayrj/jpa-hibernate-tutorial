@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
@@ -20,4 +17,6 @@ public class Address {
     private String street;
     private String city;
     private String state;
+    @OneToOne(mappedBy = "address")
+    private Person person;
 }
