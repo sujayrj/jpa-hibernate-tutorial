@@ -1,5 +1,6 @@
 package com.jeppu;
 
+import com.jeppu.domain.Address;
 import com.jeppu.domain.Person;
 
 import javax.persistence.EntityManager;
@@ -19,12 +20,22 @@ public class MainApp {
 
         //Create an instance of Person and persist to DB
         Person person = new Person();
-        person.setId(1L);
         person.setFirstName("Sujay");
         person.setLastName("Jeppu");
 
+        Address address = new Address("Mangalore club road", "575001");
+        person.setAddress(address);
+        address.setPerson(person);
+
         transaction.begin();
-        entityManager.persist(person);
+
+        //add Cascade in Person, so it performs cascade operations on Address
+        //entityManager.persist(person);
+        //entityManager.remove(person);
+
+        //add Cascade in Address, so it performs cascade operations on Address
+        entityManager.persist(address);
+        entityManager.remove(address);
         transaction.commit();
 
         entityManager.close();
