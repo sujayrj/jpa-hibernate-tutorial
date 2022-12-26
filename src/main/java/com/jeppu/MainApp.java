@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Hibernate JPA Demo
@@ -18,8 +19,37 @@ public class MainApp {
     public static void main( String[] args ) {
         //createQuery();
         //createNamedQuery();
-        polymorphicQuery();
+        //polymorphicQuery();
+        //aliasQuery();
+        pagination();
         entityManagerFactory.close();
+    }
+
+    private static void pagination(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> allPersonQuery = entityManager.createQuery("from Person", Person.class);
+        allPersonQuery.setFirstResult(0);
+        allPersonQuery.setMaxResults(5);
+
+        System.out.println(allPersonQuery.getResultList().stream().count());
+        allPersonQuery.getResultList().stream().forEach(person -> System.out.println(person.getId()+ " : "+person.getFirstName()));
+
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    private static void aliasQuery(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person as p where p.id=1L", Person.class);
+        personTypedQuery.getResultList().forEach(System.out::println);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void polymorphicQuery(){
