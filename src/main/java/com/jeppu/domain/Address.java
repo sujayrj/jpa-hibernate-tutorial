@@ -22,7 +22,7 @@ public class Address {
     private String state;
     private String zip;
     @OneToMany(mappedBy = "address")
-    @ToString.Exclude
+    //@ToString.Exclude
     private List<Person> personList;
 
     public Address(String street, String city, String state, String zip){

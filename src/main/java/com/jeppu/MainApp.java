@@ -23,8 +23,33 @@ public class MainApp {
         //aliasQuery();
         //pagination();
         //orderBy();
-        whereClause();
+        //whereClause();
+        queryParams();
         entityManagerFactory.close();
+    }
+
+    private static void queryParams(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        String firstName = "John";
+        //bad practice to use string concatenation - vulernable to SQL injection
+        //TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person p where p.firstName like '"+firstName+"'", Person.class);
+
+        //1. Named Parameter - good practice to use query parameter
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person as p where p.firstName = :first and p.lastName=:last ", Person.class);
+        personTypedQuery.setParameter("first", "John2");
+        personTypedQuery.setParameter("last", "Doe2");
+
+        //2. Position
+        personTypedQuery = entityManager.createQuery("from Person as p where p.firstName = ?1 and p.lastName=?2", Person.class);
+        personTypedQuery.setParameter(1, "John2");
+        personTypedQuery.setParameter(2, "Doe2");
+
+        personTypedQuery.getResultList().stream().map(person -> person.getFirstName()+" "+person.getLastName()).forEach(System.out::println);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void whereClause(){
