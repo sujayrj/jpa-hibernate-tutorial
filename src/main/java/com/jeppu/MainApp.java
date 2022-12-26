@@ -22,8 +22,20 @@ public class MainApp {
         //polymorphicQuery();
         //aliasQuery();
         //pagination();
-        orderBy();
+        //orderBy();
+        whereClause();
         entityManagerFactory.close();
+    }
+
+    private static void whereClause(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person p where p.firstName like 'Alice%' order by p.firstName asc", Person.class);
+        personTypedQuery.getResultList().stream().map(person -> person.getFirstName()+" "+person.getLastName()).forEach(System.out::println);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void orderBy(){
