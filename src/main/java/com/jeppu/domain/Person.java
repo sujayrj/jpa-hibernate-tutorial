@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long personId;
     private String firstName;
     private String lastName;
     @ManyToOne(cascade = CascadeType.PERSIST)

@@ -25,8 +25,23 @@ public class MainApp {
         //orderBy();
         //whereClause();
         //queryParams();
-        singleResult();
+        //singleResult();
+        specialAttributeId();
         entityManagerFactory.close();
+    }
+
+    private static void specialAttributeId(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person p where id = :id", Person.class);
+        //The id attribute in Person Entity was changed to personId from id. But you can still the special attribute id (interally refers to personId in Person)
+        personTypedQuery.setParameter("id", 1L);
+        Person person = personTypedQuery.getSingleResult();
+        System.out.println(person);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void singleResult(){
@@ -99,7 +114,7 @@ public class MainApp {
         allPersonQuery.setMaxResults(5);
 
         System.out.println(allPersonQuery.getResultList().stream().count());
-        allPersonQuery.getResultList().stream().forEach(person -> System.out.println(person.getId()+ " : "+person.getFirstName()));
+        allPersonQuery.getResultList().stream().forEach(person -> System.out.println(person.getFirstName()));
 
 
         entityManager.getTransaction().commit();
