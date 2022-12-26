@@ -24,8 +24,24 @@ public class MainApp {
         //pagination();
         //orderBy();
         //whereClause();
-        queryParams();
+        //queryParams();
+        singleResult();
         entityManagerFactory.close();
+    }
+
+    private static void singleResult(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person p where p.firstName like :firstKey and p.lastName like :lastKey", Person.class);
+        personTypedQuery.setParameter("firstKey", "%"+"Alice4"+"%");
+        personTypedQuery.setParameter("lastKey", "%"+"Long"+"%");
+        //with singleresult, atleast 1 result has to be returned else will throw NoResultException
+        Person person = personTypedQuery.getSingleResult();
+        System.out.println(person);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void queryParams(){
