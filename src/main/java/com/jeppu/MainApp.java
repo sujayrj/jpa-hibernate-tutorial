@@ -21,8 +21,20 @@ public class MainApp {
         //createNamedQuery();
         //polymorphicQuery();
         //aliasQuery();
-        pagination();
+        //pagination();
+        orderBy();
         entityManagerFactory.close();
+    }
+
+    private static void orderBy(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        TypedQuery<Person> personTypedQuery = entityManager.createQuery("from Person p order by p.firstName desc", Person.class);
+        personTypedQuery.getResultList().stream().map(person -> person.getFirstName()+" "+person.getLastName()).forEach(System.out::println);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     private static void pagination(){
