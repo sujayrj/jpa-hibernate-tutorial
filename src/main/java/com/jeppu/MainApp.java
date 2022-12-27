@@ -1,6 +1,8 @@
 package com.jeppu;
 
-import com.jeppu.domain.Person;
+import com.jeppu.domain.Account;
+import com.jeppu.domain.CheckingAccount;
+import com.jeppu.domain.SavingsAccount;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,14 +19,14 @@ public class MainApp {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
 
-        //Create an instance of Person and persist to DB
-        Person person = new Person();
-        person.setId(1L);
-        person.setFirstName("Sujay");
-        person.setLastName("Jeppu");
-
         transaction.begin();
-        entityManager.persist(person);
+
+        Account checkingAccount = new CheckingAccount(100.0, 20.0);
+        entityManager.persist(checkingAccount);
+
+        Account savingsAccount = new SavingsAccount(2000.0, 5.0);
+        entityManager.persist(savingsAccount);
+
         transaction.commit();
 
         entityManager.close();
